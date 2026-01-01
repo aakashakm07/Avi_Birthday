@@ -42,6 +42,7 @@ body{
 
 /* ================= CONTAINER ================= */
 .container{
+  margin-top: 40px;
   position:relative;
   padding:40px;
   text-align:center;
@@ -79,7 +80,9 @@ body{
 .cake{
   position:relative;
   width:150px;
-  margin:35px auto;
+  margin:65px auto ;
+  padding-bottom: 0;
+  margin-bottom: 0;
   animation:cakeBounce 2s ease-in-out infinite;
 }
 
@@ -146,8 +149,376 @@ body{
 h1{font-size:28px;margin-top:20px}
 .name{font-size:22px;color:#fff}
 .tip{font-size:13px;color:#aaa}
+
+/* ================= BALLOONS ================= */
+.balloon{
+  position:absolute;
+  bottom:-120px;
+  width:40px;
+  height:55px;
+  border-radius:50%;
+  animation:fly 8s linear infinite;
+}
+
+.balloon::after{
+  content:"";
+  position:absolute;
+  bottom:-18px;
+  left:50%;
+  width:2px;
+  height:18px;
+  background:#fff;
+}
+
+.balloon.red{background:#ff4d4d;left:10%;animation-duration:7s}
+.balloon.blue{background:#4da6ff;left:25%;animation-duration:9s}
+.balloon.green{background:#4dff88;left:45%;animation-duration:8s}
+.balloon.yellow{background:#ffe44d;left:65%;animation-duration:10s}
+.balloon.pink{background:#ff80bf;left:80%;animation-duration:7.5s}
+
+@keyframes fly{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-130vh)}
+}
+
+/* ================= TOP BIRTHDAY BANNER ================= */
+.banner{
+  position:absolute;
+    top:20px;
+  width:100%;
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  letter-spacing:3px;
+  color:#fff;
+  text-shadow:0 0 10px #ff0;
+}
+
+/* ================= FALLING RIBBONS (FIXED) ================= */
+.ribbon{
+  position:absolute;
+  top:-120px;            /* start above screen */
+  width:8px;
+  height:100px;
+  animation:
+    ribbonFall linear infinite,
+    swing 2s ease-in-out infinite alternate;
+}
+
+/* positions + speed */
+.ribbon:nth-child(1){
+  left:15%;
+  background:linear-gradient(#ff0,#f00);
+  animation-duration:6s, 2s;
+}
+
+.ribbon:nth-child(2){
+  left:50%;
+  background:linear-gradient(#0ff,#00f);
+  animation-duration:8s, 2.5s;
+}
+
+.ribbon:nth-child(3){
+  left:80%;
+  background:linear-gradient(#f0f,#800080);
+  animation-duration:7s, 2.2s;
+}
+
+/* ⬇️ Top to bottom movement (NO transform) */
+@keyframes ribbonFall{
+  from{ top:-120px; }
+  to{ top:120vh; }
+}
+
+/* ↔ Swing rotation only */
+@keyframes swing{
+  from{ transform:rotate(-6deg); }
+  to{ transform:rotate(6deg); }
+}
+
+
+
+
+/* ================= IMAGE CARDS ================= */
+.cards{
+  display:flex;
+  gap:15px;
+  margin-top:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.card{
+  position:relative;
+  width:120px;
+  height:150px;
+  border-radius:14px;
+  overflow:visible;
+  background:#111;
+  box-shadow:0 8px 20px rgba(0,0,0,0.6);
+  animation:floatCard 3s ease-in-out infinite alternate;
+}
+
+/* ✨ Sparkles */
+.sparkle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:gold;
+  border-radius:50%;
+  pointer-events:none;
+  animation:spark 0.7s linear forwards;
+  box-shadow:0 0 10px gold;
+}
+
+@keyframes spark{
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x), var(--y)) scale(0);
+    opacity:0;
+  }
+}
+
+
+
+/* 🌈 Animated Colorful Border */
+.card::before{
+  content:"";
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:14px;
+  background:linear-gradient(
+    90deg,
+    red, orange, yellow, lime, cyan, blue, violet, red
+  );
+  background-size:300% 300%;
+  animation:cardBorder 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+}
+
+@keyframes cardBorder{
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.card:hover{
+  transform:scale(1.12) rotate(2deg);
+  box-shadow:0 12px 30px rgba(255,215,0,0.9);
+}
+
+
+/* ================= FULLSCREEN VIEW ================= */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
+}
+
+.lightbox.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:16px;
+  box-shadow:0 0 40px gold;
+}
+
+
+@keyframes zoomIn{
+  from{transform:scale(0.6)}
+  to{transform:scale(1)}
+}
+
+
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  pointer-events:none;
+  animation:explode 900ms ease-out forwards;
+  box-shadow:0 0 12px currentColor;
+}
+
+@keyframes explode{
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x), var(--y)) scale(0);
+    opacity:0;
+  }
+}
+
+
+.bg-firework{
+  position:fixed;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  pointer-events:none;
+  animation:bgExplode 1500ms ease-out forwards;
+  box-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 30px currentColor;
+  z-index:1;
+  opacity:1;
+}
+
+@keyframes bgExplode{
+  from{
+    transform:translate(0,0) scale(1.3);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x), var(--y)) scale(0);
+    opacity:0;
+  }
+}
+
+/* ================= RANDOM RIBBON RAIN ================= */
+/* ================= TWISTED RIBBON RAIN ================= */
+.ribbon-rain{
+  position:fixed;
+  top:-140px;
+  width:12px;
+  height:110px;
+  pointer-events:none;
+  z-index:1;
+
+  /* 🎀 twisted look */
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.35) 0px,
+      rgba(255,255,255,0.35) 6px,
+      rgba(255,255,255,0.05) 12px,
+      rgba(255,255,255,0.05) 18px
+    );
+
+  border-radius:4px 10px 4px 10px;
+
+  animation:
+    ribbonFall linear forwards,
+    ribbonTwist 1.6s linear infinite;
+}
+
+/* ⬇️ fall */
+@keyframes ribbonFall{
+  from{ top:-140px; }
+  to{ top:120vh; }
+}
+
+/* 🌀 twisting motion */
+@keyframes ribbonTwist{
+  0%{
+    transform: rotateZ(0deg) rotateY(0deg) skewX(2deg);
+  }
+  50%{
+    transform: rotateZ(6deg) rotateY(180deg) skewX(-4deg);
+  }
+  100%{
+    transform: rotateZ(0deg) rotateY(360deg) skewX(2deg);
+  }
+}
+
+/* ================= COLORFUL BIRTHDAY TEXT ================= */
+
+.birthday-text{
+  font-size:32px;
+  font-weight:800;
+  margin-top:20px;
+
+  background: linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    violet,
+    red
+  );
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  animation: textGlow 4s linear infinite;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 20px rgba(255,200,0,0.8);
+}
+
+.birthday-name{
+  font-size:26px;
+  font-weight:700;
+  
+
+  background: linear-gradient(
+    90deg,
+    #ff4d4d,
+    #ffd700,
+    #00ffcc,
+    #ff66ff,
+    #ff4d4d
+  );
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  animation: namePulse 2s ease-in-out infinite;
+  text-shadow:
+    0 0 12px rgba(255,215,0,0.9);
+}
+
+/* 🌈 gradient movement */
+@keyframes textGlow{
+  0%{ background-position:0% 50%; }
+  100%{ background-position:300% 50%; }
+}
+
+/* 💓 pulse effect */
+@keyframes namePulse{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.12); }
+}
+
+
+
+
 </style>
 </head>
+
+
 
 <body>
 
@@ -156,12 +527,20 @@ h1{font-size:28px;margin-top:20px}
   <source src="birthday.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-document.body.addEventListener("click", () => {
-  const music = document.getElementById("bgMusic");
-  if (music.paused) music.play();
-}, { once: true });
-</script>
+
+<!-- 🎊 Birthday Banner -->
+<div class="banner">🎉 HAPPY BIRTHDAY 🎉</div>
+
+
+
+<!-- 🎈 Flying Balloons -->
+<div class="balloon red"></div>
+<div class="balloon blue"></div>
+<div class="balloon green"></div>
+<div class="balloon yellow"></div>
+<div class="balloon pink"></div>
+
+
 
 <!-- 🎊 Confetti -->
 <div class="confetti"></div><div class="confetti"></div>
@@ -169,6 +548,20 @@ document.body.addEventListener("click", () => {
 <div class="confetti"></div><div class="confetti"></div>
 
 <div class="container">
+
+  <!-- 🖼️ Image Cards -->
+<div class="cards">
+  <div class="card">
+    <img src="Avi5.jpeg" alt="memory 1">
+  </div>
+  <div class="card">
+    <img src="Avi7.jpeg" alt="memory 2">
+  </div>
+  <div class="card">
+    <img src="Avi1.jpeg" alt="memory 3">
+  </div>
+</div>
+
   <div class="cake">
     <input type="checkbox" id="blow">
     <label for="blow" class="candle">
@@ -180,10 +573,175 @@ document.body.addEventListener("click", () => {
     <div class="plate"></div>
   </div>
 
-  <h1>Happy Birthday 🎉</h1>
-  <div class="name">Barfi 🎂</div>
+  <h1 class="birthday-text">🎉 Happy Birthday 🎉</h1>
+<div class="name birthday-name">Barfi 🎂</div>
+
   <div class="tip">Tap candle to blow 🕯️</div>
 </div>
+
+<!-- 🖼️ Fullscreen Image Viewer -->
+<div class="lightbox" id="lightbox">
+  <img src="" id="lightboxImg">
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+  /* 🎵 MUSIC */
+  document.body.addEventListener("click",()=>{
+    const music=document.getElementById("bgMusic");
+    if(music.paused) music.play();
+  },{once:true});
+
+  /* 🔥 FIREWORK BLAST */
+  function fireworkBlast(el){
+    for(let i=0;i<20;i++){
+      const p=document.createElement("span");
+      p.className="firework";
+      p.style.left="50%";
+      p.style.top="50%";
+      p.style.color=`hsl(${Math.random()*360},100%,30%)`;
+      p.style.setProperty("--x",`${Math.random()*160-80}px`);
+      p.style.setProperty("--y",`${Math.random()*160-80}px`);
+      el.appendChild(p);
+      setTimeout(()=>p.remove(),900);
+    }
+  }
+
+  /* 🖼️ CARDS */
+  const cards=[...document.querySelectorAll(".card")];
+  const imgs=[...document.querySelectorAll(".card img")];
+
+  cards.forEach(card=>{
+    card.addEventListener("mouseenter",()=>fireworkBlast(card));
+    card.addEventListener("touchstart",()=>fireworkBlast(card));
+  });
+
+  /* 🖼️ LIGHTBOX */
+  const lightbox=document.getElementById("lightbox");
+  const lightboxImg=document.getElementById("lightboxImg");
+  let currentIndex=0;
+
+  imgs.forEach((img,i)=>{
+    img.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      currentIndex=i;
+      openLightbox();
+    });
+  });
+
+  function openLightbox(){
+    lightboxImg.src=imgs[currentIndex].src;
+    lightbox.classList.add("active");
+  }
+
+  lightbox.addEventListener("click",()=>{
+    lightbox.classList.remove("active");
+  });
+
+  /* 👉 SWIPE */
+  let startX=0;
+
+  lightbox.addEventListener("touchstart",(e)=>{
+    startX=e.touches[0].clientX;
+  });
+
+  lightbox.addEventListener("touchend",(e)=>{
+    let endX=e.changedTouches[0].clientX;
+    if(startX-endX>50) nextImg();
+    if(endX-startX>50) prevImg();
+  });
+
+  function nextImg(){
+    currentIndex=(currentIndex+1)%imgs.length;
+    lightboxImg.src=imgs[currentIndex].src;
+  }
+
+  function prevImg(){
+    currentIndex=(currentIndex-1+imgs.length)%imgs.length;
+    lightboxImg.src=imgs[currentIndex].src;
+  }
+
+  /* 🎆 AUTO BACKGROUND FIREWORKS */
+/* 🎆 HEAVY AUTO BACKGROUND FIREWORKS */
+function autoFirework(){
+
+  const x=Math.random()*window.innerWidth;
+  const y=Math.random()*window.innerHeight*0.5 + 40;
+
+  const particles = 40; // 🔥 jyada particles = heavy blast
+
+  for(let i=0;i<particles;i++){
+    const p=document.createElement("span");
+    p.className="bg-firework";
+    p.style.left=x+"px";
+    p.style.top=y+"px";
+
+    const hue = Math.random()*360;
+    p.style.color=`hsl(${hue},100%,35%)`;
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*300 + 120; // 🔥 bada explode radius
+
+    p.style.setProperty("--x",`${Math.cos(angle)*distance}px`);
+    p.style.setProperty("--y",`${Math.sin(angle)*distance}px`);
+
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1500);
+  }
+}
+
+/* ⏱️ Interval */
+setInterval(autoFirework,2200);
+
+
+
+/* 🎀 RANDOM RIBBON RAIN */
+function createRibbon(){
+  const r = document.createElement("div");
+  r.className = "ribbon-rain";
+
+  // random position
+  r.style.left = Math.random() * 100 + "vw";
+
+  // random height
+  r.style.height = Math.random() * 60 + 80 + "px";
+
+  // random speed
+  const fallTime = Math.random() * 4 + 5; // 5s – 9s
+  r.style.animationDuration = `${fallTime}s, ${Math.random()*1+1.5}s`;
+
+  // random color
+  const c1 = `hsl(${Math.random()*360},100%,60%)`;
+  const c2 = `hsl(${Math.random()*360},100%,40%)`;
+  r.style.background = `
+  linear-gradient(
+    90deg,
+    ${c1},
+    ${c2},
+    ${c1}
+  )
+`;
+
+
+  document.body.appendChild(r);
+
+  // remove after fall
+  setTimeout(()=>r.remove(), fallTime * 1000);
+}
+
+/* ⏱️ continuous ribbon rain */
+setInterval(createRibbon, 400); // speed of rain
+
+
+
+
+});
+</script>
+
+
+
 
 </body>
 </html>
